@@ -8,21 +8,22 @@ int main()
 {
 	int y=0, n = 7;
 	//y=2*x^2+(5*x-3)
-	for (size_t i = 1; i < n+1; i++)
+	for (size_t i = n; i >= 1; i--)
 	{
-		y += 2 * i ^ 2 + (5 * i - 3);
+		y += 2 * i * i + (5 * i - 3);
 	}
 	cout << "y=" << y << endl;
 	_asm {
 		xor eax,eax
+		xor ebx,ebx
+		xor edx,edx
 		mov ecx, n
-		mov ebx,0
 		
-		For :
-			mov dh,2
-			mov dl,5
+		For1 :
 			mov eax,ecx
 			mul eax
+			mov dh, 2
+			mov dl, 5
 			mul dh
 			add ebx, eax
 			mov eax,ecx
@@ -30,8 +31,8 @@ int main()
 			sub eax,3
 			add ebx,eax
 			dec ecx
-			cmp ecx, 1
-			jne For
+			cmp ecx, 0
+			jne For1
 			mov y, ebx
 	}
 	cout << "y=" << y << endl;
